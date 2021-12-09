@@ -1,0 +1,19 @@
+
+@import "./basic/variables";
+@import "./basic/basic";
+@import "./basic/helpers";
+
+
+// @import "./pages/homepage";
+// @import "./pages/login-page";
+// @import "./pages/settings-page";
+
+@import "./cmps/add-note.scss";
+@import "./cmps/note-app.scss";
+@import "./cmps/note-filter.scss";
+@import "./cmps/note-img.scss";
+@import "./cmps/note-list.scss";
+@import "./cmps/note-todo.scss";
+@import "./cmps/note-tools.scss";
+@import "./cmps/note-txt.scss";
+@import "./cmps/note-video.scss";
