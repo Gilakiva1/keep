@@ -21,10 +21,10 @@ export const NoteVideo = (props) => {
 
     return (
         <div style={backgroundColor} className="note-video" >
-            {note.info.title && <TxtNote note={note} type="title" loadNotes={props.loadNotes} />}
+            {note.info.title && <TxtNote note={note} type="title"  />}
             <iframe src={youTubeFixed} frameBorder="0"></iframe>
-            {note.info.txt && <TxtNote note={note} type="txt" loadNotes={props.loadNotes} />}
-            <NoteTools note={note} loadNotes={props.loadNotes} />
+            {note.info.txt && <TxtNote note={note} type="txt"  />}
+            <NoteTools note={note}  />
         </div >
     )
 }

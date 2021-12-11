@@ -3,12 +3,14 @@ import { noteService } from "../service/note.service"
 import editImg from '../assets/img/keep/edit.png'
 import vImg from '../assets/img/keep/v.png'
 import xImg from '../assets/img/keep/x.png'
-
 import removeIcone from '../assets/img/keep/remove.png'
+import { loadNotes } from "../store/note.action"
+import { useDispatch } from "react-redux"
 
 export const TodoPreview = (props) => {
     const [isDone, setIsDone] = useState(false)
     const [isEdit, setIsEdit] = useState(false)
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const { todo } = props
@@ -31,12 +33,11 @@ export const TodoPreview = (props) => {
     }
 
 
-    const onRemoveTodo = () => {
+    const onRemoveTodo = async () => {
         const { id } = props
-        noteService.removeTodo(id, props.idx)
-            .then(() => {
-                props.loadNotes()
-            })
+        await noteService.removeTodo(id, props.idx)
+        const notes = await noteService.query()
+        dispatch(loadNotes(notes))
         //    eventBusService.emit('user-msg', 'todo removed successfully')
     }
 

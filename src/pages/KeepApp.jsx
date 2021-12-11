@@ -3,35 +3,32 @@ import { NoteList } from "../cmps/NoteList"
 import { noteService } from "../service/note.service"
 import { useEffect, useState } from 'react';
 import { NoteFilter } from "../cmps/NoteFilter";
+import { useDispatch, useSelector } from "react-redux";
+import { loadNotes } from "../store/note.action";
 
 export const KeepApp = () => {
 
-    const [notes, setNotes] = useState([])
     const [filterBy, setFilterBy] = useState(null)
+    const notes = useSelector(state => state.noteModule.notes)
+    const dispatch = useDispatch();
 
-    useEffect(async () => {
-        await loadNotes()
+    useEffect(async ()  => {
+        const notes = await  noteService.query(filterBy)
+        dispatch(loadNotes(notes,filterBy))
     }, [])
 
-    const onSetFilter = async({target}) => {
-        console.log('value',target.value);
+    const onSetFilter = async ({ target }) => {
+        console.log('value', target.value);
         setFilterBy(target.value)
-        await loadNotes()
+        dispatch(loadNotes(filterBy))
     }
-
-    const loadNotes = async () => {
-        console.log('filterBy',filterBy);
-        const currNotes = await noteService.query(filterBy)
-        setNotes([...currNotes])
-    }
-
 
     if (!notes) return <div>Loading...</div>
     return (
         <section className='note-app'>
-            <AddNote loadNotes={loadNotes} />
+            <AddNote />
             <NoteFilter onSetFilter={onSetFilter} />
-            <NoteList notes={notes} loadNotes={loadNotes} />
+            <NoteList notes={notes} />
         </section>
     )
 }

@@ -1,6 +1,7 @@
 
 import { utilService } from './util.service.js';
 import { storageService } from './storage.service'
+import { httpService } from './http.service.js';
 export const noteService = {
     query,
     setTodosDoneAt,
@@ -8,34 +9,19 @@ export const noteService = {
     setEditTxt,
     saveNewNote,
     removeAllNote,
-    changeColorNote
+    
 }
 const KEY = 'keepDb'
 var gNotes;
-_createNotes()
 
-function changeColorNote(note, backgroundColor) {
-    var noteIdx = findNoteById(note.id);
-
-    gNotes[noteIdx].style = { backgroundColor }
-
+function removeAllNote(noteId) {
+    return httpService.delete(`note/${noteId}`)
 }
 
-function removeAllNote(note) {
-    console.log(note);
-    var noteIdx = findNoteById(note.id);
-    gNotes.splice(noteIdx, 1);
-    _saveToStorage()
-    return Promise.resolve();
-}
-
-function saveNewNote(newNote) {
-    console.log(newNote.type);
-
+async function saveNewNote(newNote) {
     var note
     if (newNote.type === 'note-txt') {
         note = {
-            id: utilService.makeId(),
             type: 'note-txt',
             isPinned: false,
             info: {
@@ -49,7 +35,6 @@ function saveNewNote(newNote) {
     } else if (newNote.type === 'note-img') {
 
         note = {
-            id: utilService.makeId(),
             type: 'note-img',
             isPinned: false,
             info: {
@@ -63,7 +48,6 @@ function saveNewNote(newNote) {
         }
     } else if (newNote.type === 'note-todos') {
         note = {
-            id: utilService.makeId(),
             type: 'note-todos',
             info: {
                 label: newNote.title,
@@ -75,7 +59,6 @@ function saveNewNote(newNote) {
         }
     } else if (newNote.type === 'note-video') {
         note = {
-            id: utilService.makeId(),
             type: 'note-video',
             isPinned: false,
             info: {
@@ -88,8 +71,8 @@ function saveNewNote(newNote) {
             }
         }
     }
-    gNotes.push(note)
-    _saveToStorage()
+    const addedNote = await httpService.post('note', note)
+   
 }
 
 function addDoneAt(todosNote) {
@@ -104,15 +87,9 @@ function addDoneAt(todosNote) {
 
 }
 
-function query(filterBy) {
-    if (filterBy) {
-        const NotesToShow = gNotes.filter(note => {
-            return note.type.includes(filterBy)
-
-        })
-        return Promise.resolve(NotesToShow)
-    }
-    return Promise.resolve(gNotes)
+async function query(filterBy) {
+    const notes = await httpService.get('note')
+    return notes
 }
 
 

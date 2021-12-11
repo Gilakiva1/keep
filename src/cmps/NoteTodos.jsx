@@ -10,8 +10,8 @@ export const NoteTodos = (props) => {
     return (
         <div style={backgroundColor} className="todo-continuer">
             {note.info.label && <h1>{note.info.label}</h1>}
-            {note.info.todos.map((todo, idx) => <TodoPreview key={Math.random()} todo={todo} idx={idx} id={note.id} loadNotes={props.loadNotes} />)}
-            <NoteTools note={note} loadNotes={props.loadNotes} />
+            {note.info.todos.map((todo, idx) => <TodoPreview key={Math.random()} todo={todo} idx={idx} id={note.id} />)}
+            <NoteTools note={note} />
         </div>
     )
 }

@@ -4,29 +4,32 @@ import editImg from '../assets/img/keep/edit.png'
 import vImg from '../assets/img/keep/v.png'
 import xImg from '../assets/img/keep/x.png'
 import { useForm } from "../hooks/useForm"
+import { useDispatch } from "react-redux"
+import { loadNotes } from "../store/note.action"
 
 export const TxtNote = (props) => {
 
     const [isEdit, setIsEdit] = useState(false)
-    const [formField, handleChange] = useForm( {txt:props.note.info[props.type]} );
+    const [formField, handleChange] = useForm({ txt: props.note.info[props.type] });
+    const dispatch = useDispatch();
 
     const toggleEdit = () => {
         setIsEdit(!isEdit)
     }
 
-    const saveEdit = () => {
+    const saveEdit = async () => {
         const note = props.note;
         const type = props.type
-
+        const notes = await noteService.query()
         if (!note.title && !note.info.txt) {
             noteService.removeNote(note.id)
             toggleEdit()
-            props.loadNotes()
-        }else {
+            dispatch(loadNotes(notes))
+        } else {
             noteService.setEditTxt(txt, note.id, type)
         }
         toggleEdit()
-        props.loadNotes()
+        dispatch(loadNotes(notes))
     }
 
     const exitEditor = () => {
@@ -35,7 +38,7 @@ export const TxtNote = (props) => {
 
     const note = props.note;
     const type = props.type
-    const {txt} = formField
+    const { txt } = formField
     return (
         <div className="container flex">
             {note.info[type] && type === 'title' && !isEdit && <h1 className="title">{note.info.title}</h1>}

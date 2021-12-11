@@ -10,14 +10,14 @@ export const NoteImg = (props) => {
         setIsEdit(!isEdit)
     }
 
-    const {note} = props
+    const { note } = props
     const backgroundColor = note.style
 
     return (
         <div style={backgroundColor} className="note-img">
             <img className="image" src={note.info.url} alt="" />
-            <TxtNote className="txt" note={note} type="txt" loadNotes={props.loadNotes} />
-            <NoteTools note={note} loadNotes={props.loadNotes} />
+            <TxtNote className="txt" note={note} type="txt" />
+            <NoteTools note={note} />
         </div>
     )
 

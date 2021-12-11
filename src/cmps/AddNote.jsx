@@ -5,9 +5,12 @@ import chatImg from '../assets/img/keep/chat.png'
 import list from '../assets/img/keep/list1.png'
 import AddImg from '../assets/img/keep/add-image.png'
 import videoImg from '../assets/img/keep/video.png'
+import { loadNotes } from "../store/note.action"
+import { useDispatch } from "react-redux"
 
 export const AddNote = (props) => {
     const todoIds = ['adsfgasdf', 'asdfvmadfskl', '23f245rf8urewf', 'adfsm=e3498r', '234234f89j4f3']
+    const dispatch = useDispatch();
 
     const [type, setType] = useState('note-txt')
     const [todos, setTodos] = useState([''])
@@ -19,13 +22,14 @@ export const AddNote = (props) => {
         setType(value)
     }
 
-    const onSaveNewNote = async() => {
+    const onSaveNewNote = async () => {
         const { url, title, txt } = formField
         if (type === 'note-todos' && !title && !txt && !todos) return
         if (type === 'note-txt' && !title && !txt) return
         if (!title && !txt && url) return
-        noteService.saveNewNote({ title, txt, type, url, todos, isAdd });
-        await props.loadNotes();
+        await noteService.saveNewNote({ title, txt, type, url, todos, isAdd });
+        const notes = await noteService.query()
+        dispatch(loadNotes(notes))
     }
 
     const addTodo = () => {

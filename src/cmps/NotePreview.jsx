@@ -9,13 +9,13 @@ export const NotePreview = (props) => {
     const DynamicCmp = () => {
         switch (props.note.type) {
             case 'note-txt':
-                return <NoteTxt {...props} loadNotes={props.loadNotes} />
+                return <NoteTxt {...props} />
             case 'note-img':
-                return <NoteImg {...props} loadNotes={props.loadNotes} />
+                return <NoteImg {...props} />
             case 'note-todos':
-                return <NoteTodos {...props} loadNotes={props.loadNotes} />
+                return <NoteTodos {...props} />
             case 'note-video':
-                return <NoteVideo {...props} loadNotes={props.loadNotes} />
+                return <NoteVideo {...props} />
             default:
                 return <div>Error loading note</div>
         }
