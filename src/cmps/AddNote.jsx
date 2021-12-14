@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "../hooks/useForm"
 import { noteService } from "../service/note.service"
 import chatImg from '../assets/img/keep/chat.png'
@@ -32,11 +32,12 @@ export const AddNote = (props) => {
         dispatch(loadNotes(notes))
     }
 
+
+
     const addTodo = () => {
         let currTodo = todos
         currTodo.push('')
-        setTodos(currTodo)
-        console.log(todos);
+        setTodos([...currTodo])
 
     }
 

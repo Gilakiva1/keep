@@ -7,20 +7,20 @@ import removeIcone from '../assets/img/keep/remove.png'
 import { loadNotes } from "../store/note.action"
 import { useDispatch } from "react-redux"
 
-export const TodoPreview = (props) => {
-    const [isDone, setIsDone] = useState(false)
+export const TodoPreview = ({ todo, note, idx }) => {
+    const [isDone, setIsDone] = useState(todo.doneAt)
     const [isEdit, setIsEdit] = useState(false)
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const { todo } = props
-        setIsDone(todo.doneAt)
+
     })
 
-    const toggleTodo = (isDoneTodo) => {
+    const toggleTodo = async (isDoneTodo) => {
         if (isDoneTodo) {
             setIsEdit(isEdit)
-            setIsDone(Date.now())
+            setIsDone(true)
+            await noteService.doneTodo(idx, isDone, note)
         } else {
             setIsEdit(isEdit)
             setIsDone(null)
@@ -34,14 +34,12 @@ export const TodoPreview = (props) => {
 
 
     const onRemoveTodo = async () => {
-        const { id } = props
-        await noteService.removeTodo(id, props.idx)
+        await noteService.removeTodo(note,idx)
         const notes = await noteService.query()
         dispatch(loadNotes(notes))
         //    eventBusService.emit('user-msg', 'todo removed successfully')
     }
 
-    const { todo } = props
 
     return (
         <div className="todos todo ">

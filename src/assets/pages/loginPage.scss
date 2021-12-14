@@ -1,0 +1,13 @@
+.login-page {
+    color: white;
+    form {
+        color: white;
+        display: flex;
+        gap:20px;
+        .fields{
+            gap: 10px;
+            color: white;
+            display: flex;
+        }
+    }
+}

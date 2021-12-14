@@ -12,6 +12,7 @@ export function noteReducer(state = initialState, action) {
             newState = { ...state, notes: [...action.notes] }
             break;
         
+            
 
     }
     // For debug:

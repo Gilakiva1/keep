@@ -1,10 +1,9 @@
-import { useState } from "react"
 
-export const NoteFilter = (props) => {
+export const NoteFilter = ({onSetFilter}) => {
 
     return (
-        <select className="filters" onChange={props.onSetFilter} name="filters" id="filters">
-            <option value="">All</option>
+        <select className="filters" onChange={onSetFilter} name="filters" id="filters">
+            <option value="all">All</option>
             <option value="note-txt">Text</option>
             <option value="note-img">Image</option>
             <option value="note-todos">Todos</option>
